@@ -28,26 +28,26 @@ public class TreeNode {
 
 class Solution {
     //오른쪽 노드부터 돌려면 스택, 왼쪽부터면 큐
-    func sumNumbers(_ root: TreeNode?) -> Int {
+    func sumNumbers2(_ root: TreeNode?) -> Int {
         guard let root = root else {
             return 0
         }
         var queue = [(TreeNode, Int)]()
         queue.append((root, 0))
         var result = 0
-        
+
         while !queue.isEmpty {
             let (node, val) = queue.removeFirst()
             let sum = 10 * val + node.val
-            
+            print(node.val, "Queue")
             if node.left == nil && node.right == nil {
                 result += sum
             }
-            
+
             if node.left != nil {
                 queue.append((node.left!, sum))
             }
-            
+
             if node.right != nil {
                 queue.append((node.right!, sum))
             }
@@ -55,8 +55,41 @@ class Solution {
         }
         return result
     }
+    
+    func sumNumbers(_ root: TreeNode?) -> Int {
+        // Input TreeNode를 바인딩한 후 stack에 튜플 형태로 담는다. 값을 계산하는 result는 초기값 0
+        guard let root = root else { return 0 }
+        
+        var stack = [(root, 0)]
+        var result = 0
+        
+        // Input TreeNode가 빈 배열이 될때까지 반복문을 돈다
+        while !stack.isEmpty {
+
+            let (node, val) = stack.popLast()!
+            //sumVar = curVal * 자릿수 증가를 위한 10 + 현재 Node의 값
+            let sumVal = val * 10 + node.val
+            print(node.val, "Stack")
+            // Node가 마지막일 경우, result 값에 계산한 val를 더해준다.
+            // 마지막이 아닐 경우는 각각 다음 Node와 계산한 val를 stack에 넣어준다.(좌우 동시에 넣어준다.)
+            if node.left == nil && node.right == nil {
+                result += sumVal
+            } else {
+                if let left = node.left {
+                    stack.append((left, sumVal))
+                }
+                if let right = node.right {
+                    stack.append((right, sumVal))
+                }
+            }
+        }
+        return result
+    }
+
 }
 var sol = Solution()
 //print(sol.sumNumbers(TreeNode(1, TreeNode(2), TreeNode(3))))
-print(sol.sumNumbers(TreeNode(4, TreeNode(9, TreeNode(5), TreeNode(1)), TreeNode(0))))
+//print(sol.sumNumbers(TreeNode(4, TreeNode(9, TreeNode(5), TreeNode(1)), TreeNode(0))))
+print(sol.sumNumbers(TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)), TreeNode(3, TreeNode(6), TreeNode(7)))))
+print(sol.sumNumbers2(TreeNode(1, TreeNode(2, TreeNode(4), TreeNode(5)), TreeNode(3, TreeNode(6), TreeNode(7)))))
 //print(sol.sumNumbers(TreeNode(2, TreeNode(1, TreeNode(4, TreeNode(7, TreeNode(4, TreeNode (8), nil), nil), nil), nil), nil)))
