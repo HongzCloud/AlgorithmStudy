@@ -105,3 +105,27 @@ func solution2(_ number:String, _ k:Int) -> String {
 }
 solution2(number, k)
 
+func solution3(_ number:String, _ k:Int) -> String {
+    var stack = [String]()
+    let arr = number.map{String($0)}
+    let blank = k
+    var skippedCharCount = 0
+    let numberCount = number.count
+    
+    for i in 0..<numberCount {
+        while !stack.isEmpty && stack.last! < arr[i] && skippedCharCount < blank {
+            stack.removeLast()
+            skippedCharCount += 1
+        }
+        
+        if skippedCharCount == blank {
+            stack.append(contentsOf: arr[i...])
+            break
+        } else {
+            stack.append(arr[i])
+        }
+    }
+
+  return String(stack.joined().prefix(numberCount-blank))
+}
+print(solution3(number, k))
