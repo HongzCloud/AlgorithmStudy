@@ -7,28 +7,6 @@
 
 import Foundation
 
-enum Street: Int, CaseIterable, CustomStringConvertible {
-    case B = 1
-    case O = 2
-    case J = 3
-    
-    var next: String {
-        switch self {
-        
-        case .B: return "O"
-        case .O: return "J"
-        case .J: return "B"
-        }
-    }
-    var description : String {
-        switch self {
-        
-        case .B: return "B"
-        case .O: return "O"
-        case .J: return "J"
-        }
-    }
-}
 
 //DP
 let firstInput = Int(readLine()!)!
